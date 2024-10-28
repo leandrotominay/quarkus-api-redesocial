@@ -1,9 +1,11 @@
 package io.github.leandrotominay.quarkusmediasocial.rest;
 
 import io.github.leandrotominay.domain.model.User;
+import io.github.leandrotominay.domain.repository.UserRepository;
 import io.github.leandrotominay.quarkusmediasocial.rest.dto.CreateUserRequest;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -14,6 +16,14 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
+    private final UserRepository repository;
+
+    @Inject
+    public UserResource(UserRepository repository){
+
+        this.repository = repository;
+    }
+
     @POST
     @Transactional
     public Response createUser( CreateUserRequest userRequest){
@@ -22,14 +32,14 @@ public class UserResource {
         user.setAge(userRequest.getAge());
         user.setName(userRequest.getName());
 
-        user.persist(); // Salvar no banco
+        repository.persist(user); // Salvar no banco
 
         return Response.ok(user).build();
     }
 
     @GET
     public Response listAllUsers(){
-        PanacheQuery<PanacheEntityBase> query = User.findAll();
+        PanacheQuery<User> query = repository.findAll();
         return Response.ok(query.list()).build();
     }
 
@@ -38,11 +48,11 @@ public class UserResource {
     @Path("{id}")
     // /users/id
 
-    public Response deleteUser( @PathParam("id") Integer id){
-        User user = User.findById(id);
+    public Response deleteUser( @PathParam("id") Long id){
+        User user = repository.findById(id);
 
         if(user != null){
-            user.delete();
+            repository.delete(user);
             return Response.ok().build();
         }
 
@@ -52,8 +62,8 @@ public class UserResource {
     @PUT
     @Path("{id}")
     @Transactional // Sempre que for atualizar entidade no banco utilizar o metodo transactional
-    public Response updateUser( @PathParam("id") Integer id , CreateUserRequest userData){
-        User user = User.findById(id);
+    public Response updateUser( @PathParam("id") Long id , CreateUserRequest userData){
+        User user = repository.findById(id);
 
         if(user != null){
             user.setName(userData.getName());
