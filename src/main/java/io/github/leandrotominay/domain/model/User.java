@@ -4,6 +4,7 @@ package io.github.leandrotominay.domain.model;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 
 import java.util.Objects;

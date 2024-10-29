@@ -1,21 +1,17 @@
 package io.github.leandrotominay.quarkusmediasocial.rest.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class CreateUserRequest {
 
-    private Integer id;
+
+    @NotBlank(message = "Name is required") // Hibernate Validator
     private String name;
+    @NotNull(message = "Age is required")
     private Integer age;
 
     // Getters and Setters
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
