@@ -6,7 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class UserRepository implements PanacheRepository<User> {
-
+//persist panache
 
 
 }
