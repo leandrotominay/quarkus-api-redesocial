@@ -34,21 +34,21 @@ class FollowerResourceTest {
     @BeforeEach
     @Transactional
     void setUp() {
-        //usuario padrão dos testes
+        // Standard User for tests
         var user = new User();
         user.setAge(30);
         user.setName("Fulano");
         userRepository.persist(user);
         userId = user.getId();
 
-        // o seguidor
+        // The Follower
         var follower = new User();
         follower.setAge(31);
         follower.setName("Cicrano");
         userRepository.persist(follower);
         followerId = follower.getId();
 
-        //cria um follower
+        // Create a follower
         var followerEntity = new Follower();
         followerEntity.setFollower(follower);
         followerEntity.setUser(user);
@@ -74,7 +74,7 @@ class FollowerResourceTest {
     }
 
     @Test
-    @DisplayName("should return 404 on follow a user when User id doen't exist")
+    @DisplayName("should return 404 on follow a user when User id doesn't exist")
     public void userNotFoundWhenTryingToFollowTest(){
 
         var body = new FollowerRequest();
@@ -145,7 +145,7 @@ class FollowerResourceTest {
     }
 
     @Test
-    @DisplayName("should return 404 on unfollow user and User id doen't exist")
+    @DisplayName("should return 404 on unfollow user and User id doesn't exist")
     public void userNotFoundWhenUnfollowingAUserTest(){
         var inexistentUserId = 999;
 
